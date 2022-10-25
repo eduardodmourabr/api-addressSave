@@ -43,7 +43,7 @@ public class EnderecoController {
     }
 
 
-    @PostMapping("/endereco/")
+    @PostMapping("/endereco")
     public ResponseEntity<Endereco> inserirEndereco(@RequestBody Endereco endereco){
         endereco = enderecoService.novoEndereco(endereco);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{is}")
@@ -60,5 +60,19 @@ public class EnderecoController {
         ServletUriComponentsBuilder.fromCurrentRequest().path("/{is}")
                 .buildAndExpand(cep.getIdEndereco()).toUri();
         return Arrays.asList(cep);
+    }
+
+    @DeleteMapping("/endereco/{id}")
+    public ResponseEntity<Void> DeleteEndereco(@PathVariable Integer id){
+        enderecoService.deleteEnderecoId(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/endereco/{id}")
+    public ResponseEntity<Endereco> editarEndereco(@PathVariable Integer id, @RequestBody Endereco endereco){
+
+        endereco = enderecoService.editarEndereco(endereco);
+        endereco.setIdEndereco(id);
+        return ResponseEntity.noContent().build();
     }
 }
